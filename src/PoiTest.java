@@ -22,8 +22,8 @@ public class PoiTest {
         try {
             data = readExcel(new File("E:\\工作文件\\2016研--敏捷开发与系统重构\\" +
                     "编程操练\\编程操练_井底压力\\数据\\输入数据.xls"));
-            for (int i = 4;i<data.size();i++){
-                System.out.print(i+1+"\t");
+            for (int i = 0;i<data.size();i++){
+                System.out.print(i+6+"\t");
                 System.out.print(data.get(i).get(0)+"\t");
                 System.out.print(data.get(i).get(1)+"\t");
                 System.out.print(data.get(i).get(2)+"\t");
@@ -145,6 +145,9 @@ public class PoiTest {
             }else {
                 counter++;
             }
+            if (counter < 6){
+                continue;
+            }
             List<Object> array = new ArrayList<>();
             for (int j = row.getFirstCellNum();j <= row.getLastCellNum();
                     j++){
@@ -186,13 +189,13 @@ public class PoiTest {
                         //System.out.println(i + "行" + j + "列 is Blank type.");
                         if (j == 3 && counter > 3){
 //                            System.out.println("\t\t"+"list["+(counter-1)+"]["+j+"] = " + list.get(counter-1).get(3));
-                            value = list.get(counter-2).get(j);
+                            value = list.get(counter-7).get(j);
                         }else if (j == 4 && counter > 3){
-                            value = list.get(counter-2).get(j);
+                            value = list.get(counter-7).get(j);
                         }else if (j == 5 && counter>3){
-                            value = list.get(counter-2).get(j);
+                            value = list.get(counter-7).get(j);
                         }else if (j == 7 && counter>3){
-                            value = list.get(counter-2).get(j);
+                            value = list.get(counter-7).get(j);
                         }else {
                             value = "";
                         }
@@ -201,13 +204,14 @@ public class PoiTest {
                         //System.out.println(i + "行" + j + "列 is default type.");
                         value = cell.toString();
                 }
-                if (j == 0 && counter > 3 && "".equals(value) && value != null){
+                if (j == 0  && "".equals(value)){
                     break;
                 }
                 array.add(value);
                 //System.out.println("list["+counter+"]["+j+"] = " + value);
             }
-            list.add(array);
+            if (!array.isEmpty())
+                list.add(array);
         }
         return list;
     }
