@@ -67,9 +67,7 @@ public class PoiTest {
             List<Object> array = new ArrayList<>();
             for (int j = row.getFirstCellNum();j <= row.getLastCellNum();j++){
                 cell = row.getCell(j);
-                if (j == (3) && cell == null){
-                    value = list.get(i-1).get(3);
-                    array.add(value);
+                if (cell == null) {
                     continue;
                 }
                 DecimalFormat df = new DecimalFormat("0");
@@ -103,9 +101,9 @@ public class PoiTest {
                         //System.out.println(i+"行"+j+"列is default type.");
                         value = cell.toString();
                 }
-                if (value == null||"".equals(value)){
-                    continue;
-                }
+//                if (value == null||"".equals(value)){
+//                    continue;
+//                }
                 array.add(value);
             }
             list.add(array);
@@ -136,6 +134,8 @@ public class PoiTest {
                 cell = row.getCell(j);
                 if (cell == null) {
                     continue;
+                }else if (j > 7){
+                    break;
                 }
                 DecimalFormat df = new DecimalFormat("0");
                 SimpleDateFormat sdf = new SimpleDateFormat(
@@ -147,9 +147,11 @@ public class PoiTest {
                         value = cell.getStringCellValue();
                         break;
                     case HSSFCell.CELL_TYPE_NUMERIC:
-                       // System.out.println(i + "行" + j + "列is Number type; Dateformt:"
-                          //      + cell.getCellStyle().getDataFormatString());
-                        if ("@".equals(cell.getCellStyle().getDataFormatString())) {
+//                        System.out.println(i + "行" + j + "列is Number type; Dateformt:"
+//                                + cell.getCellStyle().getDataFormatString());
+//                        if ("@".equals(cell.getCellStyle().getDataFormatString())) {
+//                            value = df.format(cell.getNumericCellValue());
+                        if (j == 3){
                             value = df.format(cell.getNumericCellValue());
                         } else if ("General".equals(cell.getCellStyle()
                                 .getDataFormatString())) {
@@ -166,13 +168,14 @@ public class PoiTest {
                     case HSSFCell.CELL_TYPE_BLANK:
                         //System.out.println(i + "行" + j + "列 is Blank type.");
                         if (j == 3 && counter > 3){
-                            value = list.get(counter-1).get(3);
-                        }else if (j == 4 && counter > 3){
-                            value = list.get(counter-1).get(4);
-                        }else if (j == 5 && counter>3){
-                            value = list.get(counter-1).get(5);
-                        }else if (j == 7 && counter>3){
-                            value = list.get(counter-1).get(7);
+                            System.out.println("\t\t"+"list["+(counter-1)+"]["+j+"] = " + list.get(counter-1).get(3));
+                            value = list.get(counter-1).get(j);
+//                        }else if (j == 4 && counter > 3){
+//                            value = list.get(counter-1).get(j);
+//                        }else if (j == 5 && counter>3){
+//                            value = list.get(counter-1).get(j);
+//                        }else if (j == 7 && counter>3){
+//                            value = list.get(counter-1).get(j);
                         }else {
                             value = "";
                         }
@@ -181,12 +184,14 @@ public class PoiTest {
                         //System.out.println(i + "行" + j + "列 is default type.");
                         value = cell.toString();
                 }
-                if (value == null||"".equals(value)){
-                    continue;
-                }
+//                if (value == null||"".equals(value)){
+//                    continue;
+//                }
                 array.add(value);
+                System.out.println("list["+counter+"]["+j+"] = " + value);
             }
             list.add(array);
+
         }
         return list;
     }
