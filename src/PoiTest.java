@@ -27,7 +27,11 @@ public class PoiTest {
                 System.out.print(data.get(i).get(0)+"\t");
                 System.out.print(data.get(i).get(1)+"\t");
                 System.out.print(data.get(i).get(2)+"\t");
-                System.out.println(data.get(i).get(3));
+                System.out.print(data.get(i).get(3)+"\t");
+                System.out.print(data.get(i).get(4)+"\t");
+                System.out.print(data.get(i).get(5)+"\t");
+                System.out.print(data.get(i).get(6)+"\t");
+                System.out.println(data.get(i).get(7));
             }
         }catch (IOException e){
             e.printStackTrace();
@@ -69,6 +73,8 @@ public class PoiTest {
                 cell = row.getCell(j);
                 if (cell == null) {
                     continue;
+                }else if (j > 7){
+                    break;
                 }
                 DecimalFormat df = new DecimalFormat("0");
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -81,7 +87,7 @@ public class PoiTest {
                     case XSSFCell.CELL_TYPE_NUMERIC:
                         //System.out.println(i+"行"+j+"列is Number type; DataFormt:"
                             //+cell.getCellStyle().getDataFormatString());
-                        if ("@".equals(cell.getCellStyle().getDataFormatString())){
+                        if (j == 3||j == 4||j == 5||j == 7){
                             value = df.format(cell.getNumericCellValue());
                         }else if ("General".equals(cell.getCellStyle().getDataFormatString())){
                             value = nf.format(cell.getNumericCellValue());
@@ -95,7 +101,18 @@ public class PoiTest {
                         break;
                     case XSSFCell.CELL_TYPE_BLANK:
                         //System.out.println(i+"行"+j+"列 is Blank type.");
+                        value = "";if (j == 3 && counter > 3){
+//                            System.out.println("\t\t"+"list["+(counter-1)+"]["+j+"] = " + list.get(counter-1).get(3));
+                        value = list.get(counter-2).get(j);
+                    }else if (j == 4 && counter > 3){
+                        value = list.get(counter-2).get(j);
+                    }else if (j == 5 && counter>3){
+                        value = list.get(counter-2).get(j);
+                    }else if (j == 7 && counter>3){
+                        value = list.get(counter-2).get(j);
+                    }else {
                         value = "";
+                    }
                         break;
                     default:
                         //System.out.println(i+"行"+j+"列is default type.");
@@ -151,7 +168,7 @@ public class PoiTest {
 //                                + cell.getCellStyle().getDataFormatString());
 //                        if ("@".equals(cell.getCellStyle().getDataFormatString())) {
 //                            value = df.format(cell.getNumericCellValue());
-                        if (j == 3){
+                        if (j == 3||j == 4||j == 5||j == 7){
                             value = df.format(cell.getNumericCellValue());
                         } else if ("General".equals(cell.getCellStyle()
                                 .getDataFormatString())) {
@@ -168,14 +185,14 @@ public class PoiTest {
                     case HSSFCell.CELL_TYPE_BLANK:
                         //System.out.println(i + "行" + j + "列 is Blank type.");
                         if (j == 3 && counter > 3){
-                            System.out.println("\t\t"+"list["+(counter-1)+"]["+j+"] = " + list.get(counter-1).get(3));
-                            value = list.get(counter-1).get(j);
-//                        }else if (j == 4 && counter > 3){
-//                            value = list.get(counter-1).get(j);
-//                        }else if (j == 5 && counter>3){
-//                            value = list.get(counter-1).get(j);
-//                        }else if (j == 7 && counter>3){
-//                            value = list.get(counter-1).get(j);
+//                            System.out.println("\t\t"+"list["+(counter-1)+"]["+j+"] = " + list.get(counter-1).get(3));
+                            value = list.get(counter-2).get(j);
+                        }else if (j == 4 && counter > 3){
+                            value = list.get(counter-2).get(j);
+                        }else if (j == 5 && counter>3){
+                            value = list.get(counter-2).get(j);
+                        }else if (j == 7 && counter>3){
+                            value = list.get(counter-2).get(j);
                         }else {
                             value = "";
                         }
@@ -184,14 +201,13 @@ public class PoiTest {
                         //System.out.println(i + "行" + j + "列 is default type.");
                         value = cell.toString();
                 }
-//                if (value == null||"".equals(value)){
-//                    continue;
-//                }
+                if (j == 0 && counter > 3 && "".equals(value) && value != null){
+                    break;
+                }
                 array.add(value);
-                System.out.println("list["+counter+"]["+j+"] = " + value);
+                //System.out.println("list["+counter+"]["+j+"] = " + value);
             }
             list.add(array);
-
         }
         return list;
     }
